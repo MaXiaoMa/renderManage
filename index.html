@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>渲染队列后台监控</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/colorbox.css">
+
+</head>
+<body class="bg-dark">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 id="title">渲染信息监控</h1>
+            <hr/>
+        </div>
+    </div>
+    <!--显示任务详情-->
+    <div class="modal fade" id="jobDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Job详细信息</h4>
+                </div>
+                <div class="modal-body" id="jobdetail">
+                    <h>123</h>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--显示预览图-->
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">任务预览</h4>
+                </div>
+                <div class="modal-body" id="preview">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-divider"></div>
+    <div class="row">
+        <div class="col-xs-2 ">
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="index.html"><span
+                        class="glyphicon glyphicon-home glyphicon-m"></span> 概览</a></li>
+                <!--<li role="presentation"><a href="jobstable.html"><span-->
+                        <!--class="glyphicon glyphicon-th glyphicon-m"></span> 任务列表</a></li>-->
+                <!--<li role="presentation"><a href="taskstable.html"><span class="glyphicon glyphicon-list-alt glyphicon-m"></span> 子任务列表</a></li>-->
+                <li role="presentation"><a href="slavestable.html"><span
+                        class="glyphicon glyphicon-hdd glyphicon-m"></span> 机器列表</a></li>
+                <li role="presentation"><a href="summary.html"><span
+                        class="glyphicon glyphicon-signal glyphicon-m"></span> 数据分析</a></li>
+                <li role="presentation"><a href="groupset.html"><span
+                        class="glyphicon glyphicon-cog glyphicon-m"></span> 组设置</a></li>
+                <li role="presentation"><a href="serverset.html"><span
+                        class="glyphicon glyphicon-cog glyphicon-m"></span> 服务设置</a></li>
+                <li role="presentation"><a href="error.html"><span
+                        class="glyphicon glyphicon-remove-sign glyphicon-m"></span> 错误信息</a></li>
+                <!--<li role="presentation"><a href="http://localhost.360xr.cn:1234/monitor.html" target="_blank"><span-->
+                        <!--class="glyphicon glyphicon-scale glyphicon-m"></span> 机器监控</a></li>-->
+            </ul>
+        </div>
+        <div class="col-xs-10">
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="panel panel-blue panel-widget ">
+                        <div class="row no-padding">
+                            <div class="col-sm-3 col-lg-5 widget-left">
+                                <div class="large" id="totaljob">0</div>
+
+                                <!--<em class="glyphicon glyphicon-th-list glyphicon-l"></em>-->
+                            </div>
+                            <div class="col-sm-9 col-lg-7 widget-right">
+                                <div class="text-muted">总任务</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="panel panel-teal panel-widget">
+                        <div class="row no-padding">
+                            <div class="col-sm-3 col-lg-5 widget-left">
+                                <div class="large" id="progress">0</div>
+
+                                <!--<em class="glyphicon glyphicon-tag glyphicon-l"></em>-->
+                            </div>
+                            <div class="col-sm-9 col-lg-7 widget-right">
+                                <div class="text-muted">进行中</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="panel panel-orange panel-widget">
+                        <div class="row no-padding">
+                            <div class="col-sm-3 col-lg-5 widget-left">
+                                <div class="large" id="complete">0</div>
+
+                                <!--<em class="glyphicon glyphicon-ok glyphicon-l"></em>-->
+                            </div>
+                            <div class="col-sm-9 col-lg-7 widget-right">
+                                <div class="text-muted">已完成</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="panel panel-red panel-widget">
+                        <div class="row no-padding">
+                            <div class="col-sm-3 col-lg-5 widget-left">
+                                <div class="large" id="wait">0</div>
+
+                                <!--<em class="glyphicon glyphicon-stats glyphicon-l"></em>-->
+                            </div>
+                            <div class="col-sm-9 col-lg-7 widget-right">
+                                <div class="text-muted">排队</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>队列信息</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 table-responsive" >
+                        <table class="table  table-bordered table-striped">
+                            <thead>
+                            <tr id="toggle">
+                                <th>名字</th>
+                                <th>状态</th>
+                                <th>消息</th>
+                                <th>节点</th>
+                                <th>虚拟主机 </th>
+                            </tr>
+                            </thead>
+                            <tbody id="queuesinfotable" class="hidden"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="row">
+                    <div class="col-lg-2">
+                       <label>
+                           <h3>Job信息</h3>
+                       </label>
+                        <button type="button" class="btn  btn-success" onclick="window.open('http://localhost.360xr.cn:1234/monitor.html')">机器监控</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12  table-responsive">
+                        <table class="table  table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>任务编号</th>
+                                <th>状态</th>
+                                <th>文件名</th>
+                                <th>渲染帧</th>
+                                <th>相机</th>
+                                <th>使用组</th>
+                                <th>提交时间</th>
+                                <th>开始时间</th>
+                                <th>排队耗时(分钟)</th>
+                                <th>渲染耗时(分钟)</th>
+                                <th>使用核心数</th>
+                                <th>价格</th>
+                                <th>详情</th>
+                            </tr>
+                            </thead>
+                            <tbody id="indexjobstable"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/global.js"></script>
+<script src="js/jquery-1.12.1.min.js"></script>
+<script src="js/jquery.colorbox.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/getdata.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>渲染队列后台监控</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body class="bg-dark">
+<div class="container-fluid">
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>提示信息</p>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>请再次确认，是否确定更改？</p>
+                    <button type="button" class="btn btn-danger" id="confirm">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 id="title">渲染信息监控</h1>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="hr-divider"></div>
+    <div class="row">
+        <div class="col-xs-2 ">
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="index.html"><span class="glyphicon glyphicon-home glyphicon-m"></span>
+                    概览</a></li>
+                <!--<li role="presentation"><a href="jobstable.html"><span-->
+                        <!--class="glyphicon glyphicon-th glyphicon-m"></span> 任务列表</a></li>-->
+                <!--<li role="presentation"><a href="taskstable.html"><span class="glyphicon glyphicon-list-alt glyphicon-m"></span> 子任务列表</a></li>-->
+                <li role="presentation"><a href="slavestable.html"><span
+                        class="glyphicon glyphicon-hdd glyphicon-m"></span> 机器列表</a></li>
+                <li role="presentation"><a href="summary.html"><span
+                        class="glyphicon glyphicon-signal glyphicon-m"></span> 数据分析</a></li>
+                <li role="presentation"><a href="groupset.html"><span
+                        class="glyphicon glyphicon-cog glyphicon-m"></span> 组设置</a></li>
+                <li role="presentation" class="active"><a href="serverset.html"><span
+                        class="glyphicon glyphicon-cog glyphicon-m"></span> 服务设置</a></li>
+                <li role="presentation"><a href="error.html"><span
+                        class="glyphicon glyphicon-remove-sign glyphicon-m"></span> 错误信息</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-10">
+            <div class="row">
+                <lable>目前服务状态：</lable>
+                <lable id="status"></lable>
+                <button type="button" class="btn btn-primary" id="change"></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="js/global.js"></script>
+<script src="js/jquery-1.12.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/serverset.js"></script>
+</body>
+</html>

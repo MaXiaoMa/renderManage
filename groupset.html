@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>渲染队列后台监控</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body class="bg-dark">
+<div class="container-fluid">
+    <div class="modal fade" id="creatGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="groupinfo">
+                        <div class="form-group">
+                            <label >组名：</label>
+                            <input type="text" class="form-control" name="Name" placeholder="组名">
+                        </div>
+                        <!--                    <div class="form-group">
+                                                <label for="Pr">优先级：</label>
+                                                <input type="text" class="form-control" name="Pr" placeholder="优先级">
+                                            </div>-->
+                        <div class="form-group">
+                            <label for="Speed">性能：</label>
+                            <input type="text" class="form-control" name="Speed" placeholder="性能">
+                        </div>
+                        <button type="button" id="submitinfo" class="btn btn-primary">创建</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updateGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="groupupdateinfo">
+                        <div class="form-group">
+                            <label>新组名：</label>
+                            <input type="text" class="form-control" id="newname" placeholder="组名">
+                        </div>
+                        <!--<div class="form-group">
+                            <label>优先级：</label>
+                            <input type="text" class="form-control" id="Pr" placeholder="优先级">
+                        </div>-->
+                        <div class="form-group">
+                            <label>性能：</label>
+                            <input type="text" class="form-control" id="Speed" placeholder="速度">
+                        </div>
+                        <div class="form-group">
+                            <label>状态：</label>
+                            <select name="groupstatus" class="form-control" id="status">
+                                <option value="0">空闲</option>
+                                <option value="2">不可用</option>
+                            </select>
+                        </div>
+                    </form>
+                    <button type="button" id="submitgroupupdate" class="btn btn-primary">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addSlavesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="slavesinfo">
+                        <div class="form-group">
+                            <label>机器名：</label>
+                            <input type="text" class="form-control" name="slavename" placeholder="机器名">
+                        </div>
+                        <div class="form-group">
+                            <label>IP：</label>
+                            <input type="text" class="form-control" name="ip" placeholder="IP地址">
+                        </div>
+                        <div class="form-group">
+                            <label>核心数：</label>
+                            <input type="text" class="form-control" name="cores" id="cores" placeholder="核心数">
+                        </div>
+                        <div class="form-group">
+                            <label>组名：</label>
+                            <select name="groupid" class="form-control" id="group">
+                            </select>
+                        </div>
+                    </form>
+                    <button type="button" id="createslave" class="btn btn-primary">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>提示信息</p>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updateSlaveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLable">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 id="slavename"></h5>
+                    <form id="slaveinfo">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="1" id="masterslave">主机器
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>组名：</label>
+                            <select id="groupname" class="form-control">
+                            </select>
+                        </div>
+                        <button type="button" id="submitslave" class="btn btn-primary">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 id="title">渲染信息监控</h1>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="hr-divider"></div>
+    <div class="row">
+        <div class="col-xs-2 ">
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="index.html"><span class="glyphicon glyphicon-home glyphicon-m"></span>
+                    概览</a></li>
+                <!--<li role="presentation" ><a href="jobstable.html"><span class="glyphicon glyphicon-th glyphicon-m"></span> 任务列表</a></li>-->
+                <!--<li role="presentation"><a href="taskstable.html"><span class="glyphicon glyphicon-list-alt glyphicon-m"></span> 子任务列表</a></li>-->
+                <li role="presentation"><a href="slavestable.html"><span
+                        class="glyphicon glyphicon-hdd glyphicon-m"></span> 机器列表</a></li>
+                <li role="presentation"><a href="summary.html"><span
+                        class="glyphicon glyphicon-signal glyphicon-m"></span> 数据分析</a></li>
+                <li role="presentation" class="active"><a href="groupset.html"><span
+                        class="glyphicon glyphicon-cog glyphicon-m"></span> 组设置</a></li>
+                <li role="presentation"><a href="serverset.html"><span
+                        class="glyphicon glyphicon-cog glyphicon-m"></span> 服务设置</a></li>
+                <li role="presentation"><a href="error.html"><span
+                        class="glyphicon glyphicon-remove-sign glyphicon-m"></span> 错误信息</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-10">
+            <div class="row">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3>组信息</h3>
+                        <button type="button" id="createGroup" class="btn btn-success">创建组</button>
+                        <button type="button" class="btn btn-success" id="addSlaves">添加机器</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <h3>机器信息</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>组名</th>
+                                <th>状态</th>
+                                <th>机器数</th>
+                                <th>性能</th>
+                                <th>总核心数</th>
+                                <th>主机器</th>
+                                <th>编辑</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody id="groupstable"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-7 ">
+                        <table class="table  table-bordered table-striped" id = "slaveTable">
+                            <thead>
+                            <tr>
+                                <th>机器名</th>
+                                <th>IP</th>
+                                <th>核心数</th>
+                                <th>更改</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody id="machinebygroupid"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/global.js"></script>
+<script src="js/jquery-1.12.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/getdata.js"></script>
+<script src="js/groupset.js"></script>
+</body>
+</html>
